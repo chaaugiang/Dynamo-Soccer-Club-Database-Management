@@ -1,0 +1,1224 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema ns_F2339217Group1
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema ns_F2339217Group1
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `ns_F2339217Group1` DEFAULT CHARACTER SET utf8 ;
+USE `ns_F2339217Group1` ;
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Scouts`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Scouts` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Scouts` (
+  `idScouts` INT NOT NULL,
+  `scoutsName` VARCHAR(45) NULL,
+  `scoutsPhone` VARCHAR(45) NULL,
+  `scoutsEmail` VARCHAR(45) NULL,
+  `scoutsAge` VARCHAR(45) NULL,
+  `scoutsGender` VARCHAR(45) NULL,
+  PRIMARY KEY (`idScouts`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Teams`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Teams` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Teams` (
+  `idTeams` INT NOT NULL,
+  `teamName` VARCHAR(45) NULL,
+  `teamMember` VARCHAR(45) NULL,
+  `matchesPlayed` VARCHAR(45) NULL,
+  `Scouts_idScouts` INT NOT NULL,
+  PRIMARY KEY (`idTeams`),
+  INDEX `fk_Teams_Scouts1_idx` (`Scouts_idScouts` ASC) VISIBLE,
+  CONSTRAINT `fk_Teams_Scouts1`
+    FOREIGN KEY (`Scouts_idScouts`)
+    REFERENCES `ns_F2339217Group1`.`Scouts` (`idScouts`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Players`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Players` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Players` (
+  `idPlayers` INT NOT NULL,
+  `playerName` VARCHAR(45) NULL,
+  `playerPhone` VARCHAR(45) NULL,
+  `playerEmail` VARCHAR(45) NULL,
+  `playerAge` VARCHAR(45) NULL,
+  `playerGender` VARCHAR(45) NULL,
+  `playerContractEnd` VARCHAR(45) NULL,
+  `Teams_idTeams` INT NOT NULL,
+  PRIMARY KEY (`idPlayers`),
+  INDEX `fk_Players_Teams1_idx` (`Teams_idTeams` ASC) VISIBLE,
+  CONSTRAINT `fk_Players_Teams1`
+    FOREIGN KEY (`Teams_idTeams`)
+    REFERENCES `ns_F2339217Group1`.`Teams` (`idTeams`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Fields`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Fields` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Fields` (
+  `idFields` INT NOT NULL,
+  `fieldsName` VARCHAR(45) NULL,
+  `fieldsType` VARCHAR(45) NULL,
+  PRIMARY KEY (`idFields`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Sponsors`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Sponsors` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Sponsors` (
+  `idSponsors` INT NOT NULL,
+  `sponsorsName` VARCHAR(45) NULL,
+  `sponsorsPhone` VARCHAR(45) NULL,
+  `sponsorsEmail` VARCHAR(45) NULL,
+  `sponsorsAge` VARCHAR(45) NULL,
+  `sponsorsGender` VARCHAR(45) NULL,
+  PRIMARY KEY (`idSponsors`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Tournaments`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Tournaments` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Tournaments` (
+  `idTournaments` INT NOT NULL,
+  `tournamentsDate` VARCHAR(45) NULL,
+  `tournamentsLocation` VARCHAR(45) NULL,
+  `Sponsors_idSponsors` INT NOT NULL,
+  PRIMARY KEY (`idTournaments`),
+  INDEX `fk_Tournaments_Sponsors1_idx` (`Sponsors_idSponsors` ASC) VISIBLE,
+  CONSTRAINT `fk_Tournaments_Sponsors1`
+    FOREIGN KEY (`Sponsors_idSponsors`)
+    REFERENCES `ns_F2339217Group1`.`Sponsors` (`idSponsors`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Matches`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Matches` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Matches` (
+  `idMatches` INT NOT NULL,
+  `date` VARCHAR(45) NULL,
+  `goalsScored` VARCHAR(45) NULL,
+  `redCards` VARCHAR(45) NULL,
+  `yellowCards` VARCHAR(45) NULL,
+  `Fields_idFields` INT NOT NULL,
+  `Tournaments_idTournaments` INT NOT NULL,
+  PRIMARY KEY (`idMatches`),
+  INDEX `fk_Matches_Fields_idx` (`Fields_idFields` ASC) VISIBLE,
+  INDEX `fk_Matches_Tournaments1_idx` (`Tournaments_idTournaments` ASC) VISIBLE,
+  CONSTRAINT `fk_Matches_Fields`
+    FOREIGN KEY (`Fields_idFields`)
+    REFERENCES `ns_F2339217Group1`.`Fields` (`idFields`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Matches_Tournaments1`
+    FOREIGN KEY (`Tournaments_idTournaments`)
+    REFERENCES `ns_F2339217Group1`.`Tournaments` (`idTournaments`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Coaches`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Coaches` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Coaches` (
+  `idCoaches` INT NOT NULL,
+  `coachesName` VARCHAR(45) NULL,
+  `coachesPhone` VARCHAR(45) NULL,
+  `coachesEmail` VARCHAR(45) NULL,
+  `coachesAge` VARCHAR(45) NULL,
+  `coachesGender` VARCHAR(45) NULL,
+  `coachesContractEnd` VARCHAR(45) NULL,
+  `coachesSalary` VARCHAR(45) NULL,
+  `Teams_idTeams` INT NOT NULL,
+  PRIMARY KEY (`idCoaches`),
+  INDEX `fk_Coaches_Teams1_idx` (`Teams_idTeams` ASC) VISIBLE,
+  CONSTRAINT `fk_Coaches_Teams1`
+    FOREIGN KEY (`Teams_idTeams`)
+    REFERENCES `ns_F2339217Group1`.`Teams` (`idTeams`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`AdminStaff`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`AdminStaff` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`AdminStaff` (
+  `idAdminStaff` INT NOT NULL,
+  `adminStaffName` VARCHAR(45) NULL,
+  `adminStaffPhone` VARCHAR(45) NULL,
+  `adminStaffEmail` VARCHAR(45) NULL,
+  `adminStaffAge` VARCHAR(45) NULL,
+  `adminStaffGender` VARCHAR(45) NULL,
+  `adminStaffSalary` VARCHAR(45) NULL,
+  `adminStaffContractDuration` VARCHAR(45) NULL,
+  `Teams_idTeams` INT NOT NULL,
+  PRIMARY KEY (`idAdminStaff`),
+  INDEX `fk_AdminStaff_Teams1_idx` (`Teams_idTeams` ASC) VISIBLE,
+  CONSTRAINT `fk_AdminStaff_Teams1`
+    FOREIGN KEY (`Teams_idTeams`)
+    REFERENCES `ns_F2339217Group1`.`Teams` (`idTeams`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`GroundStaff`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`GroundStaff` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`GroundStaff` (
+  `idGroundStaff` INT NOT NULL,
+  `groundStaffName` VARCHAR(45) NULL,
+  `groundStaffPhone` VARCHAR(45) NULL,
+  `groundStaffEmail` VARCHAR(45) NULL,
+  `groundStaffAge` VARCHAR(45) NULL,
+  `groundStaffGender` VARCHAR(45) NULL,
+  `groundStaffSalary` VARCHAR(45) NULL,
+  `groundStaffContractDuration` VARCHAR(45) NULL,
+  PRIMARY KEY (`idGroundStaff`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`MedicalStaff`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`MedicalStaff` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`MedicalStaff` (
+  `idMedicalStaff` INT NOT NULL,
+  `medicalStaffName` VARCHAR(45) NULL,
+  `medicalStaffPhone` VARCHAR(45) NULL,
+  `medicalStaffEmail` VARCHAR(45) NULL,
+  `medicalStaffAge` VARCHAR(45) NULL,
+  `medicalStaffGender` VARCHAR(45) NULL,
+  `medicalStaffSalary` VARCHAR(45) NULL,
+  `medicalStaffContractDuration` VARCHAR(45) NULL,
+  PRIMARY KEY (`idMedicalStaff`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Tournaments_has_Sponsors`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Tournaments_has_Sponsors` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Tournaments_has_Sponsors` (
+  `Tournaments_idTournaments` INT NOT NULL,
+  `Sponsors_idSponsors` INT NOT NULL,
+  PRIMARY KEY (`Tournaments_idTournaments`, `Sponsors_idSponsors`),
+  INDEX `fk_Tournaments_has_Sponsors_Sponsors1_idx` (`Sponsors_idSponsors` ASC) VISIBLE,
+  INDEX `fk_Tournaments_has_Sponsors_Tournaments1_idx` (`Tournaments_idTournaments` ASC) VISIBLE,
+  CONSTRAINT `fk_Tournaments_has_Sponsors_Tournaments1`
+    FOREIGN KEY (`Tournaments_idTournaments`)
+    REFERENCES `ns_F2339217Group1`.`Tournaments` (`idTournaments`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Tournaments_has_Sponsors_Sponsors1`
+    FOREIGN KEY (`Sponsors_idSponsors`)
+    REFERENCES `ns_F2339217Group1`.`Sponsors` (`idSponsors`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Sponsors_has_Teams`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Sponsors_has_Teams` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Sponsors_has_Teams` (
+  `Teams_idTeams` INT NOT NULL,
+  `Sponsors_idSponsors` INT NOT NULL,
+  PRIMARY KEY (`Teams_idTeams`, `Sponsors_idSponsors`),
+  INDEX `fk_Sponsors_has_Teams_Teams1_idx` (`Teams_idTeams` ASC) VISIBLE,
+  INDEX `fk_Sponsors_has_Teams_Sponsors1_idx` (`Sponsors_idSponsors` ASC) VISIBLE,
+  CONSTRAINT `fk_Sponsors_has_Teams_Sponsors1`
+    FOREIGN KEY (`Sponsors_idSponsors`)
+    REFERENCES `ns_F2339217Group1`.`Sponsors` (`idSponsors`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Sponsors_has_Teams_Teams1`
+    FOREIGN KEY (`Teams_idTeams`)
+    REFERENCES `ns_F2339217Group1`.`Teams` (`idTeams`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`Matches_has_GroundStaff`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`Matches_has_GroundStaff` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`Matches_has_GroundStaff` (
+  `Matches_idMatches` INT NOT NULL,
+  `GroundStaff_idGroundStaff` INT NOT NULL,
+  PRIMARY KEY (`Matches_idMatches`, `GroundStaff_idGroundStaff`),
+  INDEX `fk_Matches_has_GroundStaff_GroundStaff1_idx` (`GroundStaff_idGroundStaff` ASC) VISIBLE,
+  INDEX `fk_Matches_has_GroundStaff_Matches1_idx` (`Matches_idMatches` ASC) VISIBLE,
+  CONSTRAINT `fk_Matches_has_GroundStaff_Matches1`
+    FOREIGN KEY (`Matches_idMatches`)
+    REFERENCES `ns_F2339217Group1`.`Matches` (`idMatches`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Matches_has_GroundStaff_GroundStaff1`
+    FOREIGN KEY (`GroundStaff_idGroundStaff`)
+    REFERENCES `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ns_F2339217Group1`.`MedicalStaff_has_Matches`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ns_F2339217Group1`.`MedicalStaff_has_Matches` ;
+
+CREATE TABLE IF NOT EXISTS `ns_F2339217Group1`.`MedicalStaff_has_Matches` (
+  `Matches_idMatches` INT NOT NULL,
+  `MedicalStaff_idMedicalStaff` INT NOT NULL,
+  PRIMARY KEY (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`),
+  INDEX `fk_MedicalStaff_has_Matches_Matches1_idx` (`Matches_idMatches` ASC) VISIBLE,
+  INDEX `fk_MedicalStaff_has_Matches_MedicalStaff1_idx` (`MedicalStaff_idMedicalStaff` ASC) VISIBLE,
+  CONSTRAINT `fk_MedicalStaff_has_Matches_MedicalStaff1`
+    FOREIGN KEY (`MedicalStaff_idMedicalStaff`)
+    REFERENCES `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_MedicalStaff_has_Matches_Matches1`
+    FOREIGN KEY (`Matches_idMatches`)
+    REFERENCES `ns_F2339217Group1`.`Matches` (`idMatches`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Scouts`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (1, 'Nobie', '63', 'nkempstone0@spotify.com', '10', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (2, 'Calvin', '97', 'cparadin1@admin.ch', '73', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (3, 'Cybil', '99', 'cmcilharga2@homestead.com', '70', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (4, 'Keslie', '31', 'kwoolfoot3@nhs.uk', '25', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (5, 'Juline', '13', 'jstockwell4@lycos.com', '86', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (6, 'Hesther', '67', 'hhickisson5@geocities.com', '12', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (7, 'Jacklyn', '74', 'jscotsbrook6@scientificamerican.com', '31', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (8, 'Jeanette', '0', 'jtheodore7@blogtalkradio.com', '50', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (9, 'Alecia', '66', 'aharbinson8@over-blog.com', '42', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (10, 'Brockie', '12', 'bbonsall9@facebook.com', '99', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (11, 'Brander', '28', 'boselanda@list-manage.com', '4', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (12, 'Hillary', '90', 'hwigleyb@artisteer.com', '33', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (13, 'Teri', '36', 'tsoldic@indiatimes.com', '54', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (14, 'Branden', '63', 'bgookeyd@unesco.org', '18', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (15, 'Thibaud', '14', 'tsenette@skyrock.com', '95', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (16, 'Elwood', '93', 'ewearnef@newsvine.com', '61', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (17, 'Ivette', '40', 'ikilbeeg@de.vu', '83', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (18, 'Daune', '18', 'darangyh@elpais.com', '13', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (19, 'Katina', '24', 'kerasmusi@amazon.com', '52', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Scouts` (`idScouts`, `scoutsName`, `scoutsPhone`, `scoutsEmail`, `scoutsAge`, `scoutsGender`) VALUES (20, 'Annmarie', '70', 'araundj@vk.com', '95', 'Female');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Teams`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (1, 'Satterfield, Dicki and Wisozk', 'Drusi', '80', 3);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (2, 'Ankunding, Gorczany and Paucek', 'Malia', '47', 4);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (3, 'Balistreri LLC', 'Dorelia', '80', 5);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (4, 'Towne-Pollich', 'Vladamir', '30', 6);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (5, 'Langworth, Daugherty and Konopelski', 'Aurora', '47', 7);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (6, 'Sawayn-Hilll', 'Laurence', '16', 8);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (7, 'Abshire-Cronin', 'Joelie', '94', 9);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (8, 'Dietrich, Ritchie and Anderson', 'Delano', '51', 10);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (9, 'Toy-Johnson', 'Isabella', '79', 11);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (10, 'Buckridge and Sons', 'Amandie', '67', 12);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (11, 'Mante, Bashirian and Kreiger', 'Aloysia', '43', 13);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (12, 'Pacocha-Kertzmann', 'Prudence', '68', 14);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (13, 'Harris-Wunsch', 'Elvera', '52', 15);
+INSERT INTO `ns_F2339217Group1`.`Teams` (`idTeams`, `teamName`, `teamMember`, `matchesPlayed`, `Scouts_idScouts`) VALUES (14, 'Lakin, King and McLaughlin', 'Gene', '30', 16);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Players`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (1, 'Shay Boothebie', '796-181-8172', 'sboothebie0@huffingtonpost.com', '26', 'Male', '8/26/2024', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (2, 'Kittie Willimott', '832-531-1194', 'kwillimott1@gmpg.org', '20', 'Female', '2/7/2024', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (3, 'Albertine Wattins', '498-494-4927', 'awattins2@reference.com', '39', 'Female', '5/15/2024', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (4, 'Nickola Cattellion', '337-356-2126', 'ncattellion3@smugmug.com', '27', 'Male', '12/17/2023', 1);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (5, 'Torey O\'Sharry', '950-809-4104', 'tosharry4@surveymonkey.com', '22', 'Female', '4/2/2024', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (6, 'Avivah Guillerman', '422-512-0123', 'aguillerman5@reddit.com', '38', 'Female', '12/22/2025', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (7, 'Benjamin Travers', '586-296-9840', 'btravers6@mysql.com', '23', 'Male', '3/1/2026', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (8, 'Shelby Hospital', '519-544-4754', 'shospital7@ucoz.ru', '22', 'Male', '1/19/2024', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (9, 'Olivero Vasishchev', '862-704-9043', 'ovasishchev8@hc360.com', '21', 'Male', '8/29/2025', 9);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (10, 'Sibylla Haggeth', '565-838-0677', 'shaggeth9@wix.com', '33', 'Female', '6/19/2024', 10);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (11, 'Frances Penchen', '671-182-1978', 'fpenchena@ask.com', '32', 'Female', '12/28/2024', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (12, 'Jarad Nickerson', '215-784-5752', 'jnickersonb@wikipedia.org', '26', 'Male', '12/22/2024', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (13, 'Aland Jacmar', '532-161-1473', 'ajacmarc@51.la', '22', 'Male', '10/29/2025', 11);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (14, 'Nikolos Siegertsz', '516-775-9431', 'nsiegertszd@dedecms.com', '36', 'Male', '2/6/2025', 13);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (15, 'Inglebert Dunderdale', '303-459-0399', 'idunderdalee@twitter.com', '33', 'Male', '12/2/2025', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (16, 'Kalli Britto', '360-851-9571', 'kbrittof@sbwire.com', '22', 'Female', '1/1/2024', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (17, 'Valentijn Darte', '836-644-4392', 'vdarteg@pagesperso-orange.fr', '18', 'Male', '12/17/2025', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (18, 'Willi Ovitz', '343-626-8932', 'wovitzh@studiopress.com', '31', 'Male', '5/22/2025', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (19, 'Mark Bristowe', '862-167-4974', 'mbristowei@amazon.de', '26', 'Male', '1/23/2024', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (20, 'Delmor Brennan', '988-742-9475', 'dbrennanj@princeton.edu', '39', 'Male', '10/30/2024', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (21, 'Darsie Grimsell', '439-263-1932', 'dgrimsell0@devhub.com', '22', 'Female', '5/12/2023', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (22, 'Traci McGilleghole', '452-342-7761', 'tmcgilleghole1@elegantthemes.com', '18', 'Female', '12/25/2022', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (23, 'Allix Forri', '906-596-3278', 'aforri2@aboutads.info', '28', 'Female', '9/1/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (24, 'Ramsey Bracci', '544-225-3240', 'rbracci3@nyu.edu', '26', 'Male', '5/11/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (25, 'Sheffield Daelman', '301-873-4914', 'sdaelman4@sciencedirect.com', '22', 'Male', '7/30/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (26, 'Vincents Gilroy', '600-986-5722', 'vgilroy5@t-online.de', '27', 'Male', '4/25/2023', 9);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (27, 'Lilla Haslen', '507-433-0067', 'lhaslen6@ehow.com', '25', 'Female', '10/6/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (28, 'Terrye Hinckley', '905-155-3457', 'thinckley7@mediafire.com', '35', 'Female', '12/8/2022', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (29, 'Ainslie Tacon', '897-200-1088', 'atacon8@marketwatch.com', '33', 'Female', '7/14/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (30, 'Pepito Elfitt', '979-372-6738', 'pelfitt9@bizjournals.com', '30', 'Male', '9/9/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (31, 'Kahlil Adolphine', '620-765-5467', 'kadolphinea@shutterfly.com', '38', 'Male', '5/28/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (32, 'Robinet Loadsman', '223-895-9544', 'rloadsmanb@yale.edu', '37', 'Genderqueer', '1/9/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (33, 'Thalia Batham', '986-898-8028', 'tbathamc@squidoo.com', '20', 'Female', '5/21/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (34, 'Standford Minci', '484-815-7263', 'smincid@trellian.com', '38', 'Male', '6/27/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (35, 'Trefor Ochiltree', '818-412-2306', 'tochiltreee@sun.com', '24', 'Male', '9/4/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (36, 'Roseann Haddleton', '805-314-2312', 'rhaddletonf@whitehouse.gov', '23', 'Polygender', '12/16/2022', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (37, 'Curtice Babst', '213-154-1974', 'cbabstg@fotki.com', '25', 'Male', '8/20/2023', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (38, 'Antoine Halfpenny', '231-948-0523', 'ahalfpennyh@mashable.com', '24', 'Male', '12/3/2022', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (39, 'Emmet Gollard', '874-330-6132', 'egollardi@mozilla.org', '30', 'Male', '2/3/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (40, 'Evered Climie', '878-203-1370', 'eclimiej@youku.com', '26', 'Male', '1/8/2023', 1);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (41, 'Gottfried Sains', '417-800-6077', 'gsainsk@fda.gov', '36', 'Male', '5/6/2023', 1);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (42, 'Ernst Tunesi', '582-728-4583', 'etunesil@cyberchimps.com', '35', 'Male', '1/14/2023', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (43, 'Mahmoud Letterick', '296-651-5477', 'mletterickm@wix.com', '29', 'Non-binary', '4/8/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (44, 'Norris Creany', '316-782-4042', 'ncreanyn@hc360.com', '33', 'Male', '3/8/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (45, 'Shelby Boggs', '817-501-4563', 'sboggso@opera.com', '24', 'Bigender', '4/25/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (46, 'Pansie Wilcher', '559-239-7912', 'pwilcherp@examiner.com', '19', 'Female', '4/5/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (47, 'Allyn Berrecloth', '727-404-4500', 'aberreclothq@hp.com', '34', 'Male', '12/31/2022', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (48, 'Valida Quarrie', '699-157-3716', 'vquarrier@canalblog.com', '24', 'Genderqueer', '7/12/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (49, 'Amargo Fetter', '281-883-7636', 'afetters@prlog.org', '39', 'Female', '11/24/2022', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (50, 'Blaine Dewbury', '617-532-2666', 'bdewburyt@hc360.com', '30', 'Male', '6/11/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (51, 'Dilly Hyder', '346-343-4348', 'dhyderu@telegraph.co.uk', '30', 'Male', '8/1/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (52, 'Delinda Moses', '952-991-1344', 'dmosesv@patch.com', '18', 'Female', '8/15/2023', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (53, 'Birk Aylwin', '413-313-5178', 'baylwinw@cbsnews.com', '37', 'Male', '10/21/2023', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (54, 'Ester Mitchinson', '401-857-4399', 'emitchinsonx@gov.uk', '37', 'Female', '8/18/2023', 9);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (55, 'Coreen Lawden', '886-684-2958', 'clawdeny@disqus.com', '38', 'Female', '10/22/2023', 10);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (56, 'Gale Nortunen', '169-999-0662', 'gnortunenz@edublogs.org', '22', 'Female', '10/21/2023', 10);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (57, 'Brandyn Drydale', '811-721-3071', 'bdrydale10@newyorker.com', '31', 'Male', '11/12/2022', 10);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (58, 'Radcliffe Ping', '847-596-6687', 'rping11@stanford.edu', '37', 'Male', '10/23/2023', 11);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (59, 'Devan Squirrell', '978-205-7591', 'dsquirrell12@shinystat.com', '37', 'Female', '3/30/2023', 11);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (60, 'Corey Vardy', '867-830-4044', 'cvardy13@bluehost.com', '36', 'Female', '4/11/2023', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (61, 'Libbie Adamides', '441-442-7471', 'ladamides14@dyndns.org', '24', 'Female', '2/6/2023', 13);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (62, 'Meredith Padgham', '696-774-1323', 'mpadgham15@wikispaces.com', '21', 'Female', '9/24/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (65, 'Maurise Callicott', '473-971-1454', 'mcallicott18@squarespace.com', '20', 'Male', '7/11/2023', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (67, 'Evanne Cossans', '533-810-5791', 'ecossans1a@boston.com', '35', 'Female', '2/23/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (68, 'Thorpe Shallcrass', '428-618-8375', 'tshallcrass1b@whitehouse.gov', '23', 'Male', '8/9/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (69, 'Davey Spiller', '971-505-3313', 'dspiller1c@bing.com', '29', 'Male', '6/4/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (70, 'Gena Venable', '142-678-3896', 'gvenable1d@google.co.jp', '34', 'Female', '8/11/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (71, 'Fabe Coulthard', '807-613-5198', 'fcoulthard1e@twitpic.com', '26', 'Male', '10/5/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (72, 'Earl MacElane', '393-880-9012', 'emacelane1f@icq.com', '23', 'Male', '10/12/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (73, 'Olia Forson', '210-957-7858', 'oforson1g@princeton.edu', '37', 'Female', '3/30/2023', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (74, 'Karmen Ragsdall', '518-932-8045', 'kragsdall1h@cargocollective.com', '30', 'Female', '11/10/2022', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (75, 'Elizabet Rowat', '371-130-7817', 'erowat1i@msn.com', '39', 'Female', '10/16/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (76, 'Packston Boddymead', '487-616-1634', 'pboddymead1j@reddit.com', '30', 'Male', '6/19/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (77, 'Humphrey Sweett', '564-882-6848', 'hsweett1k@ow.ly', '34', 'Genderfluid', '3/3/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (78, 'Keenan Baker', '325-701-4191', 'kbaker1l@exblog.jp', '25', 'Male', '6/12/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (79, 'Harley Carass', '585-387-2045', 'hcarass1m@wikimedia.org', '34', 'Female', '5/28/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (80, 'Ganny Morforth', '581-375-1362', 'gmorforth1n@sogou.com', '32', 'Male', '6/23/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (81, 'Kamillah Stockford', '963-271-7092', 'kstockford1o@businesswire.com', '28', 'Female', '4/26/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (82, 'Thedric Coughtrey', '666-181-4409', 'tcoughtrey1p@friendfeed.com', '39', 'Male', '8/2/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (83, 'Giorgi Doohan', '848-963-9851', 'gdoohan1q@taobao.com', '27', 'Male', '9/19/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (84, 'Johannes Mulholland', '600-587-4566', 'jmulholland1r@prweb.com', '34', 'Agender', '10/27/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (85, 'Bartlet Littler', '459-753-4102', 'blittler1s@wp.com', '20', 'Non-binary', '7/10/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (86, 'Lutero Lindstrom', '914-634-0494', 'llindstrom1t@google.ca', '29', 'Male', '9/25/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (87, 'Bunny Morpeth', '663-141-0912', 'bmorpeth1u@businessweek.com', '32', 'Female', '10/25/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (88, 'Oran Walsh', '533-838-5733', 'owalsh1v@gravatar.com', '36', 'Male', '10/16/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (89, 'Ollie De Freitas', '286-964-3871', 'ode1w@google.de', '35', 'Male', '2/5/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (90, 'Domenic Pina', '739-441-0976', 'dpina1x@eventbrite.com', '22', 'Male', '1/5/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (91, 'Tabbitha Lawful', '587-133-6223', 'tlawful1y@ihg.com', '29', 'Female', '8/4/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (92, 'Kain Sheere', '818-273-8717', 'ksheere1z@latimes.com', '20', 'Male', '11/23/2022', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (93, 'Abey Volage', '568-170-9900', 'avolage20@g.co', '26', 'Male', '11/3/2022', 9);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (94, 'Lynn Crevy', '207-326-6568', 'lcrevy21@scientificamerican.com', '27', 'Male', '9/14/2023', 11);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (95, 'Dillie Turk', '616-832-9479', 'dturk22@topsy.com', '36', 'Male', '11/1/2022', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (96, 'Oran Minihan', '632-435-6716', 'ominihan23@cbslocal.com', '31', 'Male', '11/28/2022', 13);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (97, 'Ruperta Hynson', '443-249-9923', 'rhynson24@accuweather.com', '32', 'Genderqueer', '10/2/2023', 13);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (98, 'Charlene Jandera', '711-547-1984', 'cjandera25@phpbb.com', '35', 'Female', '8/9/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (99, 'Francklin Chattington', '185-565-2808', 'fchattington26@bloglines.com', '31', 'Male', '6/10/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (100, 'Karon Spofford', '709-196-2204', 'kspofford27@tinyurl.com', '19', 'Female', '10/11/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (101, 'Datha Sandlin', '322-323-9627', 'dsandlin28@dailymail.co.uk', '26', 'Female', '5/6/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (102, 'Chad Size', '842-785-2518', 'csize29@simplemachines.org', '27', 'Female', '11/15/2022', 14);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (103, 'Dougie Liddington', '843-221-9494', 'dliddington2a@msn.com', '21', 'Male', '11/20/2022', 13);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (104, 'Aida Turpie', '732-413-3041', 'aturpie2b@liveinternet.ru', '26', 'Female', '12/11/2022', 13);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (105, 'Maximilianus Fero', '527-217-7941', 'mfero2c@wikia.com', '30', 'Male', '9/9/2023', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (106, 'Flossy Ellerby', '129-547-5530', 'fellerby2d@auda.org.au', '37', 'Female', '11/23/2022', 12);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (107, 'Alma Baake', '492-498-7239', 'abaake2e@livejournal.com', '23', 'Female', '9/11/2023', 11);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (108, 'Arnoldo Radmer', '283-457-2218', 'aradmer2f@51.la', '28', 'Male', '11/22/2022', 10);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (109, 'Care Trayton', '477-739-3072', 'ctrayton2g@mlb.com', '28', 'Male', '2/17/2023', 1);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (110, 'Misha Ainsbury', '897-358-3668', 'mainsbury2h@cdbaby.com', '34', 'Female', '9/20/2023', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (111, 'Georgetta Pettus', '219-495-8216', 'gpettus2i@mlb.com', '37', 'Female', '3/14/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (112, 'Hayward Odda', '297-670-9746', 'hodda2j@china.com.cn', '26', 'Male', '12/6/2022', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (113, 'Huntlee Moloney', '580-800-6055', 'hmoloney2k@nyu.edu', '31', 'Male', '5/25/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (114, 'Benjamen Brasher', '107-621-4540', 'bbrasher2l@un.org', '37', 'Genderqueer', '1/26/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (115, 'Lorrayne Wason', '733-422-9670', 'lwason2m@tiny.cc', '23', 'Female', '6/5/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (116, 'Ellery Halsho', '176-643-4312', 'ehalsho2n@answers.com', '37', 'Male', '6/13/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (117, 'Waverley Zoppie', '186-220-8505', 'wzoppie2o@patch.com', '37', 'Male', '2/5/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (118, 'Giraud Yurmanovev', '977-953-1750', 'gyurmanovev2p@deliciousdays.com', '39', 'Agender', '11/7/2022', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (119, 'Cathlene Grealy', '502-482-1381', 'cgrealy2q@wunderground.com', '28', 'Female', '1/9/2023', 9);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (120, 'Grady Gerrietz', '347-430-5591', 'ggerrietz2r@wordpress.org', '30', 'Male', '12/11/2022', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (121, 'Nobe Yeardley', '858-405-6712', 'nyeardley2s@virginia.edu', '33', 'Male', '10/19/2023', 2);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (122, 'Mirelle Cowderoy', '464-113-5073', 'mcowderoy2t@hubpages.com', '30', 'Female', '8/21/2023', 1);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (123, 'Aguie Ainsworth', '230-444-4775', 'aainsworth2u@si.edu', '39', 'Male', '2/12/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (124, 'Hynda Flecknoe', '704-606-8411', 'hflecknoe2v@facebook.com', '39', 'Female', '4/19/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (125, 'Jarrid Jeyness', '762-289-9167', 'jjeyness2w@about.me', '25', 'Genderqueer', '8/16/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (126, 'Nanine Seczyk', '564-481-8898', 'nseczyk2x@taobao.com', '21', 'Female', '8/20/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (127, 'Fern Meany', '582-363-1133', 'fmeany2y@yellowpages.com', '29', 'Female', '7/21/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (128, 'Anstice Treneman', '891-925-7145', 'atreneman2z@reddit.com', '33', 'Female', '12/28/2022', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (129, 'Bail Vedyaev', '688-875-9206', 'bvedyaev30@admin.ch', '26', 'Male', '9/26/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (130, 'Lelah Betjeman', '937-999-1402', 'lbetjeman31@reference.com', '21', 'Female', '10/17/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (131, 'Ruthann McCrudden', '664-707-6893', 'rmccrudden32@e-recht24.de', '25', 'Female', '11/15/2022', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (132, 'Pauli Holme', '382-961-1315', 'pholme33@google.pl', '21', 'Female', '3/14/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (133, 'Delinda Waterland', '767-222-7157', 'dwaterland34@tripadvisor.com', '28', 'Female', '5/7/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (134, 'Niki Bromell', '947-905-9639', 'nbromell35@forbes.com', '30', 'Genderqueer', '10/2/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (135, 'Luciano Fletham', '687-403-4278', 'lfletham36@naver.com', '39', 'Male', '5/18/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (136, 'Sascha Saltsberger', '376-226-1927', 'ssaltsberger37@skype.com', '21', 'Male', '3/13/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (137, 'Karissa Bleeze', '220-849-4596', 'kbleeze38@360.cn', '27', 'Female', '9/7/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (138, 'Deni Bartles', '252-711-4164', 'dbartles39@businessinsider.com', '26', 'Female', '2/26/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (139, 'Tessi Boice', '804-230-7089', 'tboice3a@youtu.be', '27', 'Female', '4/5/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (140, 'Neile Whitbread', '589-588-2933', 'nwhitbread3b@so-net.ne.jp', '30', 'Female', '7/21/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (141, 'Marley Netti', '461-370-8246', 'mnetti3c@reddit.com', '24', 'Female', '12/9/2022', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (142, 'Northrop Norssister', '169-500-0733', 'nnorssister3d@goo.ne.jp', '22', 'Agender', '11/28/2022', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (143, 'Leland Desaur', '611-783-0906', 'ldesaur3e@npr.org', '24', 'Female', '11/15/2022', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (144, 'Zared Camock', '983-669-9623', 'zcamock3f@samsung.com', '26', 'Male', '9/23/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (145, 'Edi Coulsen', '169-634-6894', 'ecoulsen3g@prnewswire.com', '21', 'Female', '5/18/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (146, 'Stern Puddan', '320-855-6032', 'spuddan3h@pen.io', '33', 'Male', '2/16/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (147, 'Jenifer Atlee', '851-724-4407', 'jatlee3i@weebly.com', '32', 'Female', '1/9/2023', 8);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (148, 'Maura Lobb', '472-895-3533', 'mlobb3j@java.com', '22', 'Female', '1/22/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (149, 'Evered Dinse', '329-147-8442', 'edinse3k@unicef.org', '30', 'Male', '1/7/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (150, 'Kean Connock', '703-265-8720', 'kconnock3l@miibeian.gov.cn', '31', 'Male', '2/15/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (151, 'Chiquia Guilloneau', '865-490-1924', 'cguilloneau3m@dropbox.com', '36', 'Female', '5/9/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (152, 'Chris Bulleyn', '718-224-9956', 'cbulleyn3n@goo.ne.jp', '36', 'Female', '10/3/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (153, 'Vally McKeaveney', '185-805-4086', 'vmckeaveney3o@google.pl', '31', 'Female', '4/3/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (154, 'Weber Plinck', '501-285-1425', 'wplinck3p@cpanel.net', '32', 'Male', '9/1/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (155, 'Karil Salvador', '275-954-1305', 'ksalvador3q@psu.edu', '33', 'Female', '5/22/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (156, 'Vivyanne Eake', '812-232-3345', 'veake3r@blog.com', '27', 'Female', '12/14/2022', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (157, 'Mandel Ollerton', '283-167-8456', 'mollerton3s@japanpost.jp', '24', 'Male', '11/17/2022', 7);
+INSERT INTO `ns_F2339217Group1`.`Players` (`idPlayers`, `playerName`, `playerPhone`, `playerEmail`, `playerAge`, `playerGender`, `playerContractEnd`, `Teams_idTeams`) VALUES (158, 'Gerald Iacovelli', '299-819-3707', 'giacovelli3t@skype.com', '32', 'Male', '10/4/2023', 4);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Fields`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (1, 'Konklux', 'Crimson');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (2, 'Sonsing', 'Aquamarine');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (3, 'Asoka', 'Khaki');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (4, 'Duobam', 'Aquamarine');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (5, 'Tin', 'Green');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (6, 'Temp', 'Puce');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (7, 'Flexidy', 'Purple');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (8, 'Transcof', 'Fuscia');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (9, 'Ronstring', 'Indigo');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (10, 'Fixflex', 'Blue');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (11, 'Cardguard', 'Purple');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (12, 'Rank', 'Purple');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (13, 'Y-Solowarm', 'Blue');
+INSERT INTO `ns_F2339217Group1`.`Fields` (`idFields`, `fieldsName`, `fieldsType`) VALUES (14, 'Sonsing', 'Blue');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Sponsors`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (67-254-5919, 'Brittne Quinane', '156-185-7774', 'bquinane0@cdc.gov', '29', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (40-178-5143, 'Claiborne Murray', '152-278-4921', 'cmurray1@arizona.edu', '30', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (22-145-9301, 'Emma Alday', '533-141-5084', 'ealday2@huffingtonpost.com', '20', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (57-899-7531, 'Waneta Rosengarten', '356-177-0058', 'wrosengarten3@1688.com', '26', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (48-040-7807, 'Carter O\'Flannery', '440-155-3561', 'coflannery4@npr.org', '32', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (60-633-9345, 'Kellby Rany', '772-702-9078', 'krany5@state.gov', '20', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (97-337-8581, 'Willi Cheshir', '377-813-0945', 'wcheshir6@cam.ac.uk', '37', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (01-380-0952, 'Kristopher Vegas', '123-890-4060', 'kvegas7@hud.gov', '36', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (26-947-8798, 'Gwenny Tabor', '664-728-8587', 'gtabor8@discovery.com', '39', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (53-797-5856, 'Aymer Vida', '660-738-1304', 'avida9@marriott.com', '25', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (20-777-6922, 'Rita Duffell', '338-557-8937', 'rduffella@ezinearticles.com', '28', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (62-154-6315, 'Katharyn Mc Dermid', '248-918-6177', 'kmcb@de.vu', '36', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (55-367-1106, 'Marlow Goering', '689-141-4119', 'mgoeringc@jugem.jp', '25', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (77-651-2099, 'Coraline Scogin', '371-216-7463', 'cscogind@sun.com', '30', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (44-079-9487, 'Pedro Rustedge', '736-717-1557', 'prustedgee@epa.gov', '39', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (89-696-4433, 'Marji Romans', '485-543-5461', 'mromansf@wikimedia.org', '20', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (81-333-4008, 'Pauly Halloran', '590-400-0558', 'phallorang@slate.com', '39', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (61-052-7392, 'Robinette Frid', '138-745-1709', 'rfridh@imageshack.us', '25', 'Female');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (22-391-6318, 'Arley Emmatt', '891-945-1517', 'aemmatti@youtu.be', '21', 'Male');
+INSERT INTO `ns_F2339217Group1`.`Sponsors` (`idSponsors`, `sponsorsName`, `sponsorsPhone`, `sponsorsEmail`, `sponsorsAge`, `sponsorsGender`) VALUES (81-012-0266, 'Rebeca Vaen', '447-742-6385', 'rvaenj@businesswire.com', '27', 'Female');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Tournaments`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (1, '6/11/23', 'China', 67-254-5919);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (2, '6/1/23', 'South Africa', 40-178-5143);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (3, '7/20/23', 'Nigeria', 22-145-9301);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (4, '6/15/23', 'Poland', 57-899-7531);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (5, '1/10/23', 'Russia', 48-040-7807);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (6, '8/3/23', 'China', 60-633-9345);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (7, '1/31/23', 'China', 97-337-8581);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (8, '12/1/22', 'Canada', 01-380-0952);
+INSERT INTO `ns_F2339217Group1`.`Tournaments` (`idTournaments`, `tournamentsDate`, `tournamentsLocation`, `Sponsors_idSponsors`) VALUES (9, '1/29/23', 'Brazil', 26-947-8798);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Matches`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (1, '5/21/23', '19', '70', '30', 2, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (2, '9/28/23', '16', '56', '8', 3, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (3, '1/17/23', '84', '13', '37', 5, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (4, '8/21/23', '24', '7', '10', 6, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (5, '7/27/23', '48', '65', '64', 3, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (6, '2/5/23', '100', '81', '2', 5, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (7, '2/19/23', '22', '83', '24', 7, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (8, '4/3/23', '20', '35', '14', 7, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (9, '8/21/23', '77', '77', '76', 4, 1);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (10, '12/8/22', '51', '95', '78', 4, 1);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (11, '2/18/23', '61', '79', '76', 6, 2);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (12, '7/23/23', '47', '22', '85', 7, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (13, '4/17/23', '24', '49', '100', 7, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (14, '11/23/22', '30', '59', '26', 8, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (15, '5/25/23', '42', '58', '56', 9, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (16, '7/4/23', '71', '78', '100', 7, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (17, '1/5/23', '44', '1', '89', 6, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (18, '6/23/23', '95', '33', '7', 5, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (19, '10/22/23', '41', '89', '27', 4, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (20, '6/2/23', '84', '97', '3', 3, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (21, '5/1/23', '76', '96', '51', 11, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (22, '11/17/22', '15', '41', '9', 5, 8);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (23, '3/10/23', '62', '96', '85', 6, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (24, '8/2/23', '69', '79', '71', 5, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (25, '4/20/23', '10', '1', '54', 6, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (26, '6/11/23', '18', '10', '98', 7, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (27, '5/18/23', '50', '43', '41', 4, 8);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (28, '8/26/23', '75', '86', '0', 3, 9);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (29, '7/4/23', '37', '16', '56', 5, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (30, '8/24/23', '46', '52', '64', 2, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (31, '4/13/23', '8', '90', '14', 12, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (32, '9/18/23', '93', '68', '68', 12, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (33, '9/8/23', '98', '4', '63', 12, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (34, '1/17/23', '85', '19', '95', 13, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (35, '1/19/23', '53', '52', '16', 11, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (36, '10/12/23', '74', '24', '74', 14, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (37, '12/12/22', '34', '93', '73', 13, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (38, '4/18/23', '89', '68', '80', 11, 8);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (39, '8/27/23', '35', '92', '63', 10, 9);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (40, '5/22/23', '0', '75', '59', 7, 9);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (41, '6/8/23', '29', '81', '21', 8, 9);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (42, '12/23/22', '26', '49', '90', 6, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (43, '7/26/23', '26', '87', '21', 5, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (44, '5/31/23', '19', '28', '1', 4, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (45, '11/9/22', '37', '61', '72', 5, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (46, '7/6/23', '52', '41', '7', 7, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (47, '5/18/23', '33', '31', '96', 4, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (48, '10/6/23', '37', '91', '51', 3, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (49, '9/3/23', '97', '20', '48', 5, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (50, '12/27/22', '39', '87', '62', 6, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (51, '2/25/23', '79', '57', '64', 7, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (52, '8/10/23', '40', '27', '38', 4, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (53, '5/22/23', '15', '20', '48', 3, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (54, '9/15/23', '39', '36', '12', 3, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (55, '9/2/23', '5', '60', '52', 4, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (56, '7/29/23', '17', '50', '72', 5, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (57, '1/14/23', '11', '72', '4', 6, 7);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (58, '4/7/23', '37', '86', '70', 7, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (59, '5/23/23', '11', '30', '40', 4, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (60, '5/11/23', '92', '77', '59', 3, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (61, '3/25/23', '98', '13', '13', 5, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (62, '3/31/23', '15', '66', '29', 6, 3);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (63, '12/6/22', '81', '72', '59', 6, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (64, '2/20/23', '61', '47', '76', 4, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (65, '1/28/23', '92', '23', '1', 4, 4);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (66, '10/29/23', '16', '76', '96', 5, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (67, '9/11/23', '49', '5', '60', 6, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (68, '4/22/23', '6', '53', '2', 11, 5);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (69, '9/15/23', '91', '68', '50', 12, 6);
+INSERT INTO `ns_F2339217Group1`.`Matches` (`idMatches`, `date`, `goalsScored`, `redCards`, `yellowCards`, `Fields_idFields`, `Tournaments_idTournaments`) VALUES (70, '10/15/23', '37', '72', '10', 13, 7);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Coaches`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (71-649-0779, 'Corbie Penrose', '874-977-6885', 'cpenrose0@a8.net', '22', 'Male', '5/18/23', '$92,337.15 ', 1);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (84-206-0454, 'Packston Tebald', '745-904-3403', 'ptebald1@jimdo.com', '22', 'Male', '10/23/23', '$84,343.76 ', 2);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (30-185-8164, 'Mervin Halliburton', '607-641-7106', 'mhalliburton2@mayoclinic.com', '22', 'Male', '9/2/23', '$52,010.98 ', 3);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (72-354-9342, 'Dolores Claffey', '445-301-8700', 'dclaffey3@mail.ru', '36', 'Female', '3/11/23', '$72,780.48 ', 4);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (15-145-4961, 'Northrup Stitle', '576-122-5525', 'nstitle4@parallels.com', '22', 'Male', '9/15/23', '$43,948.48 ', 5);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (84-887-6694, 'Corabel Spitell', '940-654-1351', 'cspitell5@gov.uk', '28', 'Female', '10/17/23', '$81,780.03 ', 6);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (15-728-4726, 'Wheeler McAlinion', '173-538-5587', 'wmcalinion6@prlog.org', '36', 'Male', '4/10/23', '$80,596.01 ', 7);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (29-665-5198, 'Humbert de Quesne', '289-302-8459', 'hde7@cdc.gov', '29', 'Male', '1/25/23', '$68,003.36 ', 8);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (30-810-7145, 'Portia Springell', '470-403-6163', 'pspringell8@wordpress.org', '29', 'Female', '4/17/23', '$98,457.41 ', 9);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (79-091-0592, 'Jayme MacPake', '786-880-3877', 'jmacpake9@apple.com', '34', 'Female', '6/5/23', '$72,206.39 ', 10);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (39-542-6576, 'Melisandra Camings', '781-586-1175', 'mcamingsa@foxnews.com', '35', 'Female', '5/24/23', '$64,803.00 ', 11);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (45-982-7736, 'Susannah Esplin', '174-876-6580', 'sesplinb@illinois.edu', '27', 'Female', '10/31/23', '$59,047.26 ', 12);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (05-867-5007, 'Haze Pawlata', '695-688-3799', 'hpawlatac@pagesperso-orange.fr', '26', 'Male', '10/25/23', '$57,050.83 ', 13);
+INSERT INTO `ns_F2339217Group1`.`Coaches` (`idCoaches`, `coachesName`, `coachesPhone`, `coachesEmail`, `coachesAge`, `coachesGender`, `coachesContractEnd`, `coachesSalary`, `Teams_idTeams`) VALUES (02-376-8929, 'Beau Selland', '651-481-1779', 'bsellandd@eventbrite.com', '18', 'Male', '9/2/23', '$41,867.50 ', 14);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`AdminStaff`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (32-853-0449, 'Ethan Brosi', '964-266-4559', 'ebrosi0@kickstarter.com', '39', 'Male', '$74392.15', '3/29/2023', 10);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (47-324-5279, 'Belle Hancox', '427-325-9625', 'bhancox1@myspace.com', '35', 'Female', '$77681.96', '5/2/2023', 1);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (14-708-4130, 'Eartha Kristiansen', '599-696-5407', 'ekristiansen2@amazon.co.uk', '32', 'Female', '$51873.54', '3/8/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (88-323-4888, 'Modestine Franzettoini', '559-496-5826', 'mfranzettoini3@about.me', '34', 'Female', '$86475.27', '5/18/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (73-535-4004, 'Sigismund Thripp', '805-555-3822', 'sthripp4@plala.or.jp', '26', 'Male', '$92161.12', '8/19/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (76-613-2025, 'Tadio Casazza', '381-763-3879', 'tcasazza5@devhub.com', '38', 'Male', '$65246.22', '10/16/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (30-965-0673, 'Ogdon Seywood', '977-584-2755', 'oseywood6@globo.com', '33', 'Male', '$52345.64', '9/6/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (38-623-5638, 'Silvie Traske', '930-988-3047', 'straske7@bravesites.com', '18', 'Female', '$58968.36', '8/8/2023', 8);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (34-838-5912, 'Celene MacRury', '544-620-6665', 'cmacrury8@odnoklassniki.ru', '21', 'Female', '$56600.70', '6/23/2023', 9);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (93-727-0550, 'Andrei Kluss', '989-623-8445', 'akluss9@github.io', '31', 'Female', '$41664.41', '3/31/2023', 11);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (65-262-7055, 'Erroll Cockill', '399-548-7700', 'ecockilla@blogs.com', '28', 'Male', '$64669.48', '4/5/2023', 12);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (44-125-2821, 'Lexi Stieger', '811-102-1452', 'lstiegerb@list-manage.com', '31', 'Female', '$68008.09', '2/7/2023', 14);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (26-455-9742, 'Brantley Stile', '534-116-5705', 'bstilec@whitehouse.gov', '33', 'Male', '$81389.94', '1/24/2023', 13);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (06-641-7180, 'Pacorro Fick', '207-911-0222', 'pfickd@slate.com', '38', 'Male', '$46599.92', '11/3/2022', 1);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (76-793-7820, 'Agace Helleker', '682-415-0435', 'ahellekere@ftc.gov', '25', 'Female', '$65990.91', '2/27/2023', 3);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (79-906-0213, 'Filia Doey', '688-363-7251', 'fdoeyf@php.net', '22', 'Female', '$64903.54', '6/25/2023', 4);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (76-764-6806, 'Son Brangan', '633-144-5508', 'sbrangang@marketwatch.com', '28', 'Male', '$85582.53', '3/7/2023', 5);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (88-937-4656, 'Aarika Elstub', '599-490-1978', 'aelstubh@google.com.hk', '27', 'Female', '$80624.92', '8/28/2023', 6);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (40-953-4694, 'Lannie Jorat', '405-218-4737', 'ljorati@princeton.edu', '27', 'Male', '$71938.10', '3/13/2023', 7);
+INSERT INTO `ns_F2339217Group1`.`AdminStaff` (`idAdminStaff`, `adminStaffName`, `adminStaffPhone`, `adminStaffEmail`, `adminStaffAge`, `adminStaffGender`, `adminStaffSalary`, `adminStaffContractDuration`, `Teams_idTeams`) VALUES (70-434-6196, 'Felizio Schoenrock', '434-178-8187', 'fschoenrockj@flickr.com', '37', 'Male', '$43293.22', '12/8/2022', 8);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`GroundStaff`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (93-853-9270, 'Elwood O\'Dempsey', '678-106-7279', 'eodempsey0@chronoengine.com', '26', 'Male', '$72810.37', '11/4/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (02-022-4169, 'Nickie Gearty', '950-523-1078', 'ngearty1@pbs.org', '26', 'Male', '$94153.14', '7/4/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (73-537-5853, 'Viola Balfre', '767-426-6765', 'vbalfre2@webs.com', '21', 'Female', '$89330.17', '4/13/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (42-926-1888, 'Hillard Josovitz', '341-439-8235', 'hjosovitz3@barnesandnoble.com', '25', 'Male', '$68344.96', '9/4/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (56-182-7569, 'Denny Sieghard', '875-178-0658', 'dsieghard4@go.com', '32', 'Female', '$52104.53', '3/2/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (79-499-3792, 'Amory Mault', '398-191-2146', 'amault5@walmart.com', '23', 'Male', '$41761.78', '2/21/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (69-713-1499, 'Audrie Fosh', '665-936-4652', 'afosh6@google.pl', '31', 'Female', '$67266.61', '1/20/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (67-469-4823, 'Eddie Mowsdell', '914-835-1891', 'emowsdell7@purevolume.com', '28', 'Agender', '$42744.76', '6/6/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (66-731-0298, 'Pet Broxholme', '489-653-3918', 'pbroxholme8@jigsy.com', '26', 'Female', '$52953.40', '9/1/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (04-022-1332, 'Lyman Fergusson', '930-402-0409', 'lfergusson9@youtu.be', '26', 'Male', '$87635.67', '6/16/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (01-837-9757, 'Bailie Mannin', '287-745-7067', 'bmannina@opera.com', '27', 'Male', '$60422.44', '6/2/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (96-559-5914, 'Star Redsell', '383-661-8501', 'sredsellb@comsenz.com', '20', 'Female', '$75232.05', '11/14/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (68-401-2760, 'Sheffie Glandon', '212-190-7909', 'sglandonc@imgur.com', '34', 'Male', '$57047.98', '10/3/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (74-411-5333, 'Dominica Ebbotts', '902-134-9624', 'debbottsd@ycombinator.com', '36', 'Female', '$67928.80', '10/16/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (12-657-3183, 'Dan Patinkin', '289-514-9848', 'dpatinkine@google.com.hk', '20', 'Agender', '$69016.37', '5/13/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (33-382-5880, 'Cale Antony', '144-552-9487', 'cantonyf@sphinn.com', '32', 'Male', '$50955.83', '11/30/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (06-568-8330, 'Griz Lempke', '393-615-8708', 'glempkeg@sciencedirect.com', '31', 'Male', '$87652.20', '5/5/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (76-722-1911, 'Hoebart Wherrit', '831-581-7278', 'hwherrith@phpbb.com', '22', 'Male', '$73822.94', '4/14/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (79-815-2039, 'Mill Canadine', '678-244-1228', 'mcanadinei@cargocollective.com', '23', 'Male', '$89100.86', '7/22/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (42-517-3189, 'Nigel Carwithim', '998-495-7911', 'ncarwithimj@ameblo.jp', '39', 'Male', '$79587.39', '3/16/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (15-368-2969, 'Darcie Philipsen', '621-470-4209', 'dphilipsenk@chicagotribune.com', '28', 'Female', '$81873.03', '12/10/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (75-250-6093, 'Ruthann Harmon', '923-789-3694', 'rharmonl@google.co.uk', '36', 'Female', '$91329.73', '2/4/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (22-526-5038, 'Carolin Norville', '994-639-4075', 'cnorvillem@google.com', '37', 'Female', '$75262.55', '9/22/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (60-081-8604, 'Lacey Prier', '778-128-7236', 'lpriern@csmonitor.com', '18', 'Female', '$49658.51', '7/11/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (88-511-0887, 'Abran Oganian', '523-915-2550', 'aoganiano@vinaora.com', '19', 'Male', '$96206.40', '12/31/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (99-976-3551, 'Lexine Robey', '918-646-9128', 'lrobeyp@sohu.com', '29', 'Female', '$90652.58', '3/21/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (42-872-2268, 'Tod Lattka', '746-328-1932', 'tlattkaq@indiatimes.com', '34', 'Male', '$94156.52', '11/11/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (38-879-8243, 'Hubie Childerhouse', '744-870-3056', 'hchilderhouser@hatena.ne.jp', '21', 'Male', '$81566.63', '6/8/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (12-138-9665, 'Frederica Lozano', '605-538-3654', 'flozanos@furl.net', '22', 'Female', '$53186.75', '4/29/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (85-818-5982, 'Thornie Nixon', '311-259-9070', 'tnixont@hubpages.com', '18', 'Male', '$55650.04', '1/4/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (13-946-4997, 'Andromache Robotham', '851-195-2056', 'arobothamu@soup.io', '38', 'Female', '$64884.27', '8/7/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (88-126-8009, 'Jeddy Giorgietto', '292-537-2334', 'jgiorgiettov@google.co.uk', '31', 'Male', '$44974.65', '6/26/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (32-737-3688, 'Martainn Rizzardo', '531-127-7714', 'mrizzardow@de.vu', '25', 'Male', '$82529.56', '12/30/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (64-359-3715, 'Celka Husband', '679-140-8225', 'chusbandx@japanpost.jp', '33', 'Female', '$80185.41', '6/2/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (37-785-6338, 'Alvie Hartshorne', '492-278-1955', 'ahartshorney@feedburner.com', '24', 'Male', '$97681.87', '11/1/2022');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (26-947-1836, 'Katerine Webland', '492-865-1616', 'kweblandz@arstechnica.com', '24', 'Female', '$98122.02', '4/14/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (76-431-9651, 'Olenka Wolfenden', '820-286-5266', 'owolfenden10@about.me', '32', 'Female', '$55835.65', '5/30/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (14-507-7408, 'Sibeal Rigney', '108-763-5288', 'srigney11@sogou.com', '34', 'Female', '$46345.57', '10/30/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (06-563-8612, 'Hastie Derrington', '292-990-8522', 'hderrington12@ask.com', '28', 'Male', '$53788.20', '9/6/2023');
+INSERT INTO `ns_F2339217Group1`.`GroundStaff` (`idGroundStaff`, `groundStaffName`, `groundStaffPhone`, `groundStaffEmail`, `groundStaffAge`, `groundStaffGender`, `groundStaffSalary`, `groundStaffContractDuration`) VALUES (49-345-5954, 'Wylma Spavins', '654-489-7398', 'wspavins13@cnn.com', '32', 'Female', '$80567.86', '7/27/2023');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`MedicalStaff`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (22-532-6479, 'Shurlock Wheelton', '889-734-8211', 'swheelton0@loc.gov', '38', 'Male', '$63249.85', '3/13/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (07-370-8733, 'Beilul Dellatorre', '583-401-2514', 'bdellatorre1@squarespace.com', '39', 'Female', '$64118.92', '6/4/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (62-745-6162, 'Renaldo Endean', '495-715-9570', 'rendean2@networksolutions.com', '25', 'Male', '$52847.67', '12/8/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (50-810-4595, 'Barnett Dumberell', '637-455-7848', 'bdumberell3@hubpages.com', '31', 'Male', '$87046.64', '4/16/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (57-907-7431, 'Chris Sommerland', '778-186-3622', 'csommerland4@reverbnation.com', '39', 'Male', '$93261.85', '11/4/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (82-650-7630, 'Cyrille Rubinlicht', '517-550-9928', 'crubinlicht5@slideshare.net', '32', 'Male', '$68302.23', '12/2/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (04-735-0291, 'Helaine Todaro', '902-383-5569', 'htodaro6@hhs.gov', '37', 'Female', '$65802.99', '11/19/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (52-920-5022, 'Earle Slafford', '662-353-8642', 'eslafford7@accuweather.com', '29', 'Male', '$65388.34', '9/8/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (11-104-5621, 'Dana Offa', '761-299-4378', 'doffa8@meetup.com', '26', 'Female', '$57731.23', '12/2/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (28-475-0305, 'Debi Worvill', '372-821-8322', 'dworvill9@gravatar.com', '30', 'Female', '$60683.85', '12/6/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (61-839-0303, 'Felic Brussell', '581-592-0600', 'fbrussella@loc.gov', '35', 'Male', '$77700.07', '6/9/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (74-503-5196, 'Maddalena Broomhall', '536-420-9265', 'mbroomhallb@cnn.com', '21', 'Female', '$44476.40', '2/9/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (84-235-0906, 'Ailee Houseman', '502-884-5261', 'ahousemanc@discuz.net', '28', 'Female', '$58774.22', '3/22/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (47-782-4550, 'Anallese Maving', '617-582-3008', 'amavingd@ebay.com', '25', 'Female', '$79677.32', '7/5/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (21-728-9576, 'Pattin Lanning', '420-621-1296', 'planninge@bizjournals.com', '37', 'Male', '$77751.08', '11/12/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (51-790-7000, 'Abran Rocks', '742-130-5407', 'arocksf@ebay.co.uk', '23', 'Male', '$94945.20', '5/16/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (01-372-0748, 'Sheila Skillings', '250-893-4189', 'sskillingsg@last.fm', '24', 'Female', '$89180.13', '6/24/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (32-122-8242, 'Morten Waldron', '146-719-0982', 'mwaldronh@tinypic.com', '18', 'Male', '$81129.71', '3/25/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (68-840-3162, 'Friedrich Winteringham', '246-433-7587', 'fwinteringhami@wiley.com', '27', 'Genderfluid', '$98056.59', '8/2/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (71-461-4275, 'Toma Alltimes', '231-366-1052', 'talltimesj@baidu.com', '36', 'Female', '$45449.17', '11/30/2022');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (43-155-9259, 'Ethelind Dobell', '606-797-7729', 'edobellk@t.co', '31', 'Female', '$74599.85', '10/22/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (64-250-4097, 'Chucho Garms', '734-992-8391', 'cgarmsl@wikipedia.org', '36', 'Male', '$54005.87', '4/23/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (72-844-4877, 'Thornton Pratchett', '127-630-6508', 'tpratchettm@npr.org', '20', 'Male', '$51715.85', '5/25/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (33-642-5301, 'Marietta Akenhead', '908-708-3756', 'makenheadn@barnesandnoble.com', '18', 'Male', '$67709.10', '3/18/2023');
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff` (`idMedicalStaff`, `medicalStaffName`, `medicalStaffPhone`, `medicalStaffEmail`, `medicalStaffAge`, `medicalStaffGender`, `medicalStaffSalary`, `medicalStaffContractDuration`) VALUES (28-990-3873, 'Dayle Gayter', '158-904-5178', 'dgaytero@tinyurl.com', '30', 'Female', '$90058.94', '11/28/2022');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Tournaments_has_Sponsors`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (2, 67-254-5919);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (3, 40-178-5143);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (4, 22-145-9301);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (5, 57-899-7531);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (6, 48-040-7807);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (7, 60-633-9345);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (8, 97-337-8581);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (9, 01-380-0952);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (1, 26-947-8798);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (2, 53-797-5856);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (3, 20-777-6922);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (4, 62-154-6315);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (5, 55-367-1106);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (6, 77-651-2099);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (7, 44-079-9487);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (8, 89-696-4433);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (9, 81-333-4008);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (1, 61-052-7392);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (2, 22-391-6318);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (3, 81-012-0266);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (4, 67-254-5919);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (5, 40-178-5143);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (6, 22-145-9301);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (7, 57-899-7531);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (8, 48-040-7807);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (9, 60-633-9345);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (1, 97-337-8581);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (2, 01-380-0952);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (3, 26-947-8798);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (4, 53-797-5856);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (5, 20-777-6922);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (6, 62-154-6315);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (7, 55-367-1106);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (8, 77-651-2099);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (9, 44-079-9487);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (1, 89-696-4433);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (2, 81-333-4008);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (3, 61-052-7392);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (4, 22-391-6318);
+INSERT INTO `ns_F2339217Group1`.`Tournaments_has_Sponsors` (`Tournaments_idTournaments`, `Sponsors_idSponsors`) VALUES (5, 81-012-0266);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Sponsors_has_Teams`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (2, 67-254-5919);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (3, 40-178-5143);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (4, 22-145-9301);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (5, 57-899-7531);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (6, 48-040-7807);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (7, 60-633-9345);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (8, 97-337-8581);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (9, 01-380-0952);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (10, 26-947-8798);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (11, 53-797-5856);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (12, 20-777-6922);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (13, 62-154-6315);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (14, 55-367-1106);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (13, 77-651-2099);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (14, 44-079-9487);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (12, 89-696-4433);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (11, 81-333-4008);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (10, 61-052-7392);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (9, 22-391-6318);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (8, 81-012-0266);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (7, 67-254-5919);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (6, 40-178-5143);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (5, 22-145-9301);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (4, 57-899-7531);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (3, 48-040-7807);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (2, 60-633-9345);
+INSERT INTO `ns_F2339217Group1`.`Sponsors_has_Teams` (`Teams_idTeams`, `Sponsors_idSponsors`) VALUES (1, 97-337-8581);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`Matches_has_GroundStaff`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (1, 93-853-9270);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (2, 02-022-4169);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (3, 73-537-5853);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (4, 42-926-1888);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (5, 56-182-7569);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (6, 79-499-3792);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (7, 69-713-1499);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (8, 67-469-4823);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (9, 66-731-0298);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (10, 04-022-1332);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (11, 01-837-9757);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (12, 96-559-5914);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (13, 68-401-2760);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (14, 74-411-5333);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (15, 12-657-3183);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (16, 33-382-5880);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (17, 06-568-8330);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (18, 76-722-1911);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (19, 79-815-2039);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (20, 42-517-3189);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (21, 15-368-2969);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (22, 75-250-6093);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (23, 22-526-5038);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (24, 60-081-8604);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (25, 88-511-0887);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (26, 99-976-3551);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (27, 42-872-2268);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (28, 38-879-8243);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (29, 12-138-9665);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (30, 85-818-5982);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (31, 13-946-4997);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (32, 88-126-8009);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (33, 32-737-3688);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (34, 64-359-3715);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (35, 37-785-6338);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (36, 26-947-1836);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (37, 76-431-9651);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (38, 14-507-7408);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (39, 06-563-8612);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (40, 49-345-5954);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (41, 93-853-9270);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (42, 02-022-4169);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (43, 73-537-5853);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (44, 42-926-1888);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (45, 56-182-7569);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (46, 79-499-3792);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (47, 69-713-1499);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (48, 67-469-4823);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (49, 66-731-0298);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (50, 04-022-1332);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (51, 01-837-9757);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (52, 96-559-5914);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (53, 68-401-2760);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (54, 74-411-5333);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (55, 12-657-3183);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (56, 33-382-5880);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (57, 06-568-8330);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (58, 76-722-1911);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (59, 79-815-2039);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (60, 42-517-3189);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (61, 15-368-2969);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (62, 75-250-6093);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (63, 22-526-5038);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (64, 60-081-8604);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (65, 88-511-0887);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (66, 99-976-3551);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (67, 42-872-2268);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (68, 38-879-8243);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (69, 12-138-9665);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (70, 85-818-5982);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (1, 13-946-4997);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (2, 88-126-8009);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (3, 32-737-3688);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (4, 64-359-3715);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (5, 37-785-6338);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (6, 26-947-1836);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (7, 76-431-9651);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (8, 14-507-7408);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (9, 06-563-8612);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (10, 49-345-5954);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (11, 93-853-9270);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (12, 02-022-4169);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (13, 73-537-5853);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (14, 42-926-1888);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (15, 56-182-7569);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (16, 79-499-3792);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (17, 69-713-1499);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (18, 67-469-4823);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (19, 66-731-0298);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (20, 04-022-1332);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (21, 01-837-9757);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (22, 96-559-5914);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (23, 68-401-2760);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (24, 74-411-5333);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (25, 12-657-3183);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (26, 33-382-5880);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (27, 06-568-8330);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (28, 76-722-1911);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (29, 79-815-2039);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (30, 42-517-3189);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (31, 15-368-2969);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (32, 75-250-6093);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (33, 22-526-5038);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (34, 60-081-8604);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (35, 88-511-0887);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (36, 99-976-3551);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (37, 42-872-2268);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (38, 38-879-8243);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (39, 12-138-9665);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (40, 85-818-5982);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (41, 13-946-4997);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (42, 88-126-8009);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (43, 32-737-3688);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (44, 64-359-3715);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (45, 37-785-6338);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (46, 26-947-1836);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (47, 76-431-9651);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (48, 14-507-7408);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (49, 06-563-8612);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (50, 49-345-5954);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (51, 93-853-9270);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (52, 02-022-4169);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (53, 73-537-5853);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (54, 42-926-1888);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (55, 56-182-7569);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (56, 79-499-3792);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (57, 69-713-1499);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (58, 67-469-4823);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (59, 66-731-0298);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (60, 04-022-1332);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (61, 01-837-9757);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (62, 96-559-5914);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (63, 68-401-2760);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (64, 74-411-5333);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (65, 12-657-3183);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (66, 33-382-5880);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (67, 06-568-8330);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (68, 76-722-1911);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (69, 79-815-2039);
+INSERT INTO `ns_F2339217Group1`.`Matches_has_GroundStaff` (`Matches_idMatches`, `GroundStaff_idGroundStaff`) VALUES (70, 42-517-3189);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ns_F2339217Group1`.`MedicalStaff_has_Matches`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ns_F2339217Group1`;
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (1, 22-532-6479);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (2, 07-370-8733);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (3, 62-745-6162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (4, 50-810-4595);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (5, 57-907-7431);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (6, 82-650-7630);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (7, 04-735-0291);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (8, 52-920-5022);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (9, 11-104-5621);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (10, 28-475-0305);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (11, 61-839-0303);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (12, 74-503-5196);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (13, 84-235-0906);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (14, 47-782-4550);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (15, 21-728-9576);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (16, 51-790-7000);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (17, 01-372-0748);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (18, 32-122-8242);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (19, 68-840-3162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (20, 71-461-4275);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (21, 43-155-9259);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (22, 64-250-4097);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (23, 72-844-4877);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (24, 33-642-5301);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (25, 28-990-3873);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (26, 22-532-6479);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (27, 07-370-8733);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (28, 62-745-6162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (29, 50-810-4595);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (30, 57-907-7431);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (31, 82-650-7630);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (32, 04-735-0291);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (33, 52-920-5022);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (34, 11-104-5621);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (35, 28-475-0305);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (36, 61-839-0303);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (37, 74-503-5196);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (38, 84-235-0906);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (39, 47-782-4550);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (40, 21-728-9576);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (41, 51-790-7000);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (42, 01-372-0748);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (43, 32-122-8242);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (44, 68-840-3162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (45, 71-461-4275);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (46, 43-155-9259);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (47, 64-250-4097);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (48, 72-844-4877);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (49, 33-642-5301);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (50, 28-990-3873);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (51, 22-532-6479);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (52, 07-370-8733);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (53, 62-745-6162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (54, 50-810-4595);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (55, 57-907-7431);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (56, 82-650-7630);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (57, 04-735-0291);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (58, 52-920-5022);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (59, 11-104-5621);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (60, 28-475-0305);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (61, 61-839-0303);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (62, 74-503-5196);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (63, 84-235-0906);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (64, 47-782-4550);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (65, 21-728-9576);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (66, 51-790-7000);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (67, 01-372-0748);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (68, 32-122-8242);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (69, 68-840-3162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (70, 71-461-4275);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (1, 43-155-9259);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (2, 64-250-4097);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (3, 72-844-4877);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (4, 33-642-5301);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (5, 28-990-3873);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (6, 71-461-4275);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (7, 22-532-6479);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (8, 07-370-8733);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (9, 62-745-6162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (10, 50-810-4595);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (11, 57-907-7431);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (12, 82-650-7630);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (13, 04-735-0291);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (14, 52-920-5022);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (15, 11-104-5621);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (16, 28-475-0305);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (17, 61-839-0303);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (18, 74-503-5196);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (19, 84-235-0906);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (20, 47-782-4550);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (21, 21-728-9576);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (22, 51-790-7000);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (23, 01-372-0748);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (24, 32-122-8242);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (25, 68-840-3162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (26, 71-461-4275);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (27, 43-155-9259);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (28, 64-250-4097);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (29, 72-844-4877);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (30, 33-642-5301);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (31, 28-990-3873);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (32, 22-532-6479);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (33, 07-370-8733);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (34, 62-745-6162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (35, 50-810-4595);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (36, 57-907-7431);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (37, 82-650-7630);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (38, 04-735-0291);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (39, 52-920-5022);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (40, 11-104-5621);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (41, 28-475-0305);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (42, 61-839-0303);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (43, 74-503-5196);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (44, 84-235-0906);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (45, 47-782-4550);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (46, 21-728-9576);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (47, 51-790-7000);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (48, 01-372-0748);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (49, 32-122-8242);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (50, 68-840-3162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (51, 71-461-4275);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (52, 22-532-6479);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (53, 07-370-8733);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (54, 62-745-6162);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (55, 50-810-4595);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (56, 57-907-7431);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (57, 82-650-7630);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (58, 04-735-0291);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (59, 52-920-5022);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (60, 11-104-5621);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (61, 28-475-0305);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (62, 61-839-0303);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (63, 74-503-5196);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (64, 84-235-0906);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (65, 47-782-4550);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (66, 21-728-9576);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (67, 51-790-7000);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (68, 01-372-0748);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (69, 32-122-8242);
+INSERT INTO `ns_F2339217Group1`.`MedicalStaff_has_Matches` (`Matches_idMatches`, `MedicalStaff_idMedicalStaff`) VALUES (70, 68-840-3162);
+
+COMMIT;
+
+SELECT *
+FROM Players;
+
