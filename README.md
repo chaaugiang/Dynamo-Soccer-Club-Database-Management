@@ -1,9 +1,23 @@
 # Dynamo Soccer Club (DSC)
-1. Project overview
+## Project Summary
 
 In this project, we developed a comprehensive data model for Dynamo Soccer Club (DSC) to facilitate advanced data analysis and provide managerial insights. Inspired by the relational structure used by Kroger stores, our model meticulously maps entities like coaches, players, teams, matches, tournaments, fields, medical staff, and administrative staff.
 
 Using SQL for data querying, we extracted valuable information and performed calculations to support informed decision-making. Our primary aim was to provide actionable insights into various aspects of the club’s functioning, including coach and player management, team performance, staff evaluation, and logistical planning.
+
+## Questions answered by this project
+1. Which coaches have expired contracts?
+2. What is the average salary for male and female coaches?
+3. What is the average number of goals scored per match for each field?
+4. What are the tournaments held in China, sorted by date?
+5. What is the percentage of players under the age of 25 for each team?
+6. What are the medical staff members' salaries and the number of matches they've worked?
+7. What is the average age of players for each team, and how are they categorized?
+8. What are the number of matches played, the number of administrative staff, and the average salary for administrative staff for each team?
+9. What is the average number of red and yellow cards per game for each team?
+10. Which players are older than the average player age within their respective teams?
+
+
 ## Team name and members:
 
 - Thai Le, Alvia Pham, Essex Glowaki, Kenneth Johnson, McKenna Sloan
@@ -16,6 +30,7 @@ DSC boasts three full-sized soccer fields, a training ground with fitness facili
 
 ## Data Model
 <img width="697" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/6e125cf1-c5bd-44e5-8d04-b87965b080d2">
+
 Our team’s data model is based on the different stores Kroger has across the United States. Each store has many relationships with other entities in the table. For example, a store has many transactions, and in those transactions are many items. A store can also make multiple payments to one vendor, and each of those payments would have one invoice. Likewise, a store has many departments, and each of those departments also have relationships with other entities. More specifically, a department can have many inventories, and in each inventory is the quantity of an item (e.g. the Bakery department has cupcakes and cookies, and the quantity of those items are 100 and 50 (respectively)). A department also has many orders, and each order contains many items. Each order is made through one delivery and contains one invoice; however, a vendor can have multiple orders.
 
 
