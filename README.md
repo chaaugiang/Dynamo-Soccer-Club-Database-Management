@@ -5,17 +5,26 @@ In this project, we developed a comprehensive data model for Dynamo Soccer Club 
 
 Using SQL for data querying, we extracted valuable information and performed calculations to support informed decision-making. Our primary aim was to provide actionable insights into various aspects of the club’s functioning, including coach and player management, team performance, staff evaluation, and logistical planning.
 
-## Questions answered by this project
-1. Which coaches have expired contracts?
-2. What is the average salary for male and female coaches?
-3. What is the average number of goals scored per match for each field?
-4. What are the tournaments held in China, sorted by date?
-5. What is the percentage of players under the age of 25 for each team?
-6. What are the medical staff members' salaries and the number of matches they've worked?
-7. What is the average age of players for each team, and how are they categorized?
-8. What are the number of matches played, the number of administrative staff, and the average salary for administrative staff for each team?
-9. What is the average number of red and yellow cards per game for each team?
-10. Which players are older than the average player age within their respective teams?
+## Insights Provided by This Project
+
+1. Contract Management
+   - Identifies coaches with expired contracts.
+2. Salary Analysis
+   - Calculates average salaries for male and female coaches.
+   - Analyzes average salaries for administrative and medical staff.
+3. Performance Metrics
+   - Computes the average number of goals scored per match for each field.
+   - Calculates the average number of red and yellow cards per game for each team.
+4. Player Demographics
+   - Determines the percentage of players under the age of 25 for each team.
+   - Analyzes the average age of players for each team and categorizes them.
+   - Identifies players older than the average age within their respective teams.
+5. Event and Logistical Planning
+   - Lists tournaments held in specific countries, sorted by date.
+   - Provides the number of matches played and administrative staff employed for each team.
+6. Staff Workload and Compensation
+   - Lists medical staff members' salaries and the number of matches they've worked.
+
 
 
 ## Team name and members:
