@@ -1,6 +1,9 @@
 # Dynamo Soccer Club (DSC)
-MIST 4610 Project
+1. Project overview
 
+In this project, we developed a comprehensive data model for Dynamo Soccer Club (DSC) to facilitate advanced data analysis and provide managerial insights. Inspired by the relational structure used by Kroger stores, our model meticulously maps entities like coaches, players, teams, matches, tournaments, fields, medical staff, and administrative staff.
+
+Using SQL for data querying, we extracted valuable information and performed calculations to support informed decision-making. Our primary aim was to provide actionable insights into various aspects of the club’s functioning, including coach and player management, team performance, staff evaluation, and logistical planning.
 ## Team name and members:
 
 - Thai Le, Alvia Pham, Essex Glowaki, Kenneth Johnson, McKenna Sloan
