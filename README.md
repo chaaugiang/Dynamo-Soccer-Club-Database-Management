@@ -5,12 +5,11 @@ In this project, we developed a comprehensive data model for Dynamo Soccer Club 
 
 ## Technique Highlights
 1. Date Comparison: Utilize CURRENT_DATE() function
-2. Data Transformation: CONCAT(), FORMAT(), and REPLACE() for formatting and calculating average.
-3. Data Aggregation: COUNT(), MAX(), and SUM()
+2. Data Transformation & Aggregation: CONCAT(), FORMAT(), REPLACE(), COUNT(), MAX(), SUM(), ROUND()
 4. Pattern Matching: REGEXP to filter data based on specific patterns.
 5. Conditional Logic: Implement CASE statements to categorize data based on conditions.
 6. Join Operations: INNER JOIN, LEFT JOIN, etc
-7. Sorting: Organize query results using ORDER BY to sort data based on specific criteria.
+7. Sorting: Organize query results using ORDER BY, GROUP BY to sort data based on specific criteria.
 8. Subqueries: Incorporate subqueries within queries to perform comparisons and calculations.
 
 
