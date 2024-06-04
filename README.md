@@ -5,6 +5,17 @@ In this project, we developed a comprehensive data model for Dynamo Soccer Club 
 
 Using SQL for data querying, we extracted valuable information and performed calculations to support informed decision-making. Our primary aim was to provide actionable insights into various aspects of the club’s functioning, including coach and player management, team performance, staff evaluation, and logistical planning.
 
+## Technique Highlights
+1. Date Comparison: Utilize CURRENT_DATE() function
+2. Data Transformation: CONCAT(), FORMAT(), and REPLACE() for formatting and calculating average.
+3. Data Aggregation: COUNT(), MAX(), and SUM()
+4. Pattern Matching: REGEXP to filter data based on specific patterns.
+5. Conditional Logic: Implement CASE statements to categorize data based on conditions.
+6. Join Operations: INNER JOIN, LEFT JOIN, etc
+7. Sorting: Organize query results using ORDER BY to sort data based on specific criteria.
+8. Subqueries: Incorporate subqueries within queries to perform comparisons and calculations.
+
+
 ## Insights Provided by This Project
 
 1. Contract Management
