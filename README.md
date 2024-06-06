@@ -17,18 +17,17 @@ In this project, we developed a comprehensive data model for Dynamo Soccer Club 
 ### 1. Mock Data Generation
 
 #### Description: I was responsible for generating realistic mock data for the project. This involved creating datasets that would accurately represent the different entities and relationships within the Dynamo Soccer Club.
-#### Tool Used: Mockaroo
+Tool Used: Mockaroo
 
 ### 2. Reverse Engineering into SQL Data Model
 #### Description: I reverse-engineered the generated mock data into a structured SQL data model.
-#### Steps Taken:
-##### - Analyzed the mock data to identify key entities and their relationships.
-##### - Defined primary keys, foreign keys, and other constraints to maintain data integrity.
-##### - Establishing relationships using foreign keys to ensure referential integrity (e.g., team_id in the players table referencing teams table).
-##### - Ensured the database was in at least the Third Normal Form (3NF) to enhance data integrity and reduce redundancy.
+Steps Taken:
+- Analyzed the mock data to identify key entities and their relationships.
+- Establishing relationships using foreign keys to ensure referential integrity (e.g., team_id in the players table referencing teams table).
+- Ensured the database was in at least the Third Normal Form (3NF) to enhance data integrity and reduce redundancy.
 
 ### 3. SQL Queries Development
-##### - Description: I developed several SQL queries to extract, transform, and analyze the data, providing actionable insights for DSC management.
+#### Description: I developed several SQL queries to extract, transform, and analyze the data, providing actionable insights for DSC management.
 
 
 ## Insights Provided by This Project
@@ -63,6 +62,54 @@ Dynamo Soccer Club (DSC) is an established club based in Athens, Georgia. Founde
 DSC boasts three full-sized soccer fields, a training ground with fitness facilities, a medical center, a clubhouse with a pro shop, administrative offices, locker rooms, and a snack bar. We offer training sessions, competitive matches, soccer camps during school holidays, and occasional events and workshops. DSC also provides coaching courses for aspiring soccer coaches. 
 
 
+## Queries & Insights
+
+### 1. Expired Contracts: Identifies coaches with expired contracts to assist in renewal or replacement decisions
+
+<img width="327" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/f9516ad0-6408-4a7f-8a44-d42628395993">
+
+### 2.Salary Analysis: Calculates the average salary for male and female coaches to ensure fair compensation across genders
+
+<img width="443" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/73795e3f-97bd-4d32-8b70-afb9ea16a645">
+
+### 3.Goals per Match: Provides the average number of goals scored per match for each field to assess team performance and field advantage
+
+<img width="496" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/b26cbaff-63c6-4b77-a9f5-4471a6300feb">
+
+### 4.Tournaments in China: Lists tournaments held in China, sorted by date, to help with scheduling and logistics
+
+<img width="248" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/1e2ed6e7-90cf-4df1-bd63-6c6065aba107">
+
+
+### 5.Player Age Analysis: Calculates the percentage of players under 25 for each team to manage youth and experience levels, aiding in player development and recruitment strategies
+
+<img width="415" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/3214e086-6f40-494f-b7de-c6c9cff73a92">
+
+
+### 6.Player Age Analysis: Calculates the percentage of players under 25 for each team to manage youth and experience levels, aiding in player development and recruitment strategies
+
+<img width="271" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/25469683-dd78-42bc-8013-ec58d8d95713">
+
+
+### 7.Player Age Categorization: Calculates the average age of players for each team and categorizes them as "Young," "Average," or "Tenure" to assess team age profiles and experience levels for recruitment and development
+
+<img width="319" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/1549f0f1-9596-4f8b-b423-0ee044afe4c4">
+
+
+### 8.Administrative Staff Analysis: Lists each team’s matches, administrative staff count, and their average salary to evaluate staffing needs and compensation
+
+<img width="473" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/872f226d-5896-4afa-aae9-e6784a971f47">
+
+
+### 9.Player Discipline: Calculates each team's average number of red and yellow cards per game to assess and manage player discipline.
+
+<img width="530" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/23529b6f-6e08-47e1-982c-3322fdf82550">
+
+
+### 10.Older Players: Lists team names, player names, and ages for players older than their team's average age to identify those nearing retirement for planning replacements and contract management
+
+<img width="298" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/ff9b011e-a33f-41da-947d-99635c871526">
+
 ## Data Model
 <img width="697" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/6e125cf1-c5bd-44e5-8d04-b87965b080d2">
 
@@ -88,51 +135,6 @@ Our team’s data model is based on the different stores Kroger has across the U
 <img width="470" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/4d8b2204-8ad2-4e2a-965d-232d6cd85498">
 <img width="474" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/2738e6b9-c956-44c6-94f8-119f34d810f1">
 
-
-
-## Ten Queries
-
-1. TP_Q1.This query identifies coaches with expired contracts, which is relevant from a managerial perspective for evaluating whether it is needed to renew, replace or renegotiate contracts.
-<img width="327" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/f9516ad0-6408-4a7f-8a44-d42628395993">
-
-2. This query calculates the average salary for male and female coaches, providing insights for managers to ensure that neither gender is receiving unfair compensation.
-<img width="443" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/73795e3f-97bd-4d32-8b70-afb9ea16a645">
-
-3. This query provides information on the average number of goals scored per match for each field. This is valuable to assess team performance and to make decisions on field allocation, especially considering whether or not playing on a certain field gives players an advantage.
-
-<img width="496" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/b26cbaff-63c6-4b77-a9f5-4471a6300feb">
-
-4. This query provides a list of tournaments held in China, sorted by date. This information is relevant for assessing scheduling and logistics of tournaments in a specific country, in this case, China.
-<img width="248" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/1e2ed6e7-90cf-4df1-bd63-6c6065aba107">
-
-
-5. This query calculates the percentage of players under the age of 25 for each team. This is relevant from a managerial perspective for assessing and managing the youth and experience levels within teams, which can be used to aid in player development strategies and recruitment decisions. It is especially important in evaluating which teams have players with the most years left playing, and therefore which teams will not be changing their player rotation soon.
-
-<img width="415" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/3214e086-6f40-494f-b7de-c6c9cff73a92">
-
-
-6. This query provides a list of the medical staff members, their salaries, and the number of matches they've worked (including those who haven't worked any matches). This is relevant from a managerial perspective for evaluating staff performance and workload, and making informed decisions regarding medical staff compensation and assignments.
-
-<img width="271" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/25469683-dd78-42bc-8013-ec58d8d95713">
-
-
-7. This query calculates the average age of players for each team and categorizes them as "Young," "Average," or "Tenure," which is relevant from a managerial perspective to assess the overall age profile and experience level of each team's players, aiding in player recruitment and development. 
-
-<img width="319" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/1549f0f1-9596-4f8b-b423-0ee044afe4c4">
-
-
-8. This query lists each team’s name, the number of matches they’ve played, the number of adminstrative staff members they employ, and the average salary for the administrative staff. This is relevant from a manager’s perspective because it allows them to evaluate whether multiple administrative staff members are helpful/necessary, and whether they should be compensated differently depending on the amount of work they do.
-
-<img width="473" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/872f226d-5896-4afa-aae9-e6784a971f47">
-
-
-9. This query calculates and provides each team's average number of red and yellow cards per game, offering valuable insights from a managerial perspective to assess and address player discipline, which is important for aiding in team management and game strategies.
-
-<img width="530" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/23529b6f-6e08-47e1-982c-3322fdf82550">
-
-
-10. This query provides a list of team names, player names, and player ages for players who are older than the average player age within their respective teams. This is relevant from a managerial perspective because it allows managers to identify players who might be retiring soon, so they can plan for replacements and contract management.
-<img width="298" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/ff9b011e-a33f-41da-947d-99635c871526">
 
 
 ## Matrix
