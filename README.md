@@ -12,6 +12,24 @@ In this project, we developed a comprehensive data model for Dynamo Soccer Club 
 7. Sorting: Organize query results using ORDER BY, GROUP BY to sort data based on specific criteria.
 8. Subqueries: Incorporate subqueries within queries to perform comparisons and calculations.
 
+## My Specific Contribution:
+
+### 1. Mock Data Generation
+
+#### Description: I was responsible for generating realistic mock data for the project. This involved creating datasets that would accurately represent the different entities and relationships within the Dynamo Soccer Club.
+#### Tool Used: Mockaroo
+
+### 2. Reverse Engineering into SQL Data Model
+#### Description: I reverse-engineered the generated mock data into a structured SQL data model.
+#### Steps Taken:
+##### - Analyzed the mock data to identify key entities and their relationships.
+##### - Defined primary keys, foreign keys, and other constraints to maintain data integrity.
+##### - Establishing relationships using foreign keys to ensure referential integrity (e.g., team_id in the players table referencing teams table).
+##### - Ensured the database was in at least the Third Normal Form (3NF) to enhance data integrity and reduce redundancy.
+
+### 3. SQL Queries Development
+##### - Description: I developed several SQL queries to extract, transform, and analyze the data, providing actionable insights for DSC management.
+
 
 ## Insights Provided by This Project
 
