@@ -88,15 +88,39 @@ DSC boasts three full-sized soccer fields, a training ground with fitness facili
 
 ### 6.Player Age Analysis: Calculates the percentage of players under 25 for each team to manage youth and experience levels, aiding in player development and recruitment strategies
 
+SELECT medicalStaffName, medicalStaffSanlary, COUNT(idMatches)
+FROM MedicalStaff
+LEFT JOIN MedicalStaff_has_Matches ON MedicalStaff.idMedicalStaff = MedicalStaff_has_Matches.MedicalStaff_idMedicalStaff
+LEFT JOIN Matches ON Matches.idMatches= MedicalStaff_has_Matches.Matches_idMatches
+GROUP BY medicalStaffName, medicalStaffSalary
+ORDER BY medicalStaffSalary DESC;
+
 <img width="271" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/25469683-dd78-42bc-8013-ec58d8d95713">
 
 
 ### 7.Player Age Categorization: Calculates the average age of players for each team and categorizes them as "Young," "Average," or "Tenure" to assess team age profiles and experience levels for recruitment and development
 
+SELECT Teams.teamName, 
+       ROUND(AVG(Players.playerAge), 2) AS AverageAge,
+       CASE
+           WHEN AVG(Players.playerAge) < 25 THEN 'Young'
+           WHEN AVG(Players.playerAge) BETWEEN 25 AND 30 THEN 'Average'
+           ELSE 'Tenure'
+       END AS AgeCategory
+FROM Teams 
+JOIN Players ON Teams.idTeams = Players.Teams_idTeams
+GROUP BY Teams.teamName;
+
 <img width="319" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/1549f0f1-9596-4f8b-b423-0ee044afe4c4">
 
 
 ### 8.Administrative Staff Analysis: Lists each team’s matches, administrative staff count, and their average salary to evaluate staffing needs and compensation
+
+SELECT teamName, matchesPlayed, COUNT(DISTINCT idAdminStaff) AS "# Admin Staff", CONCAT("$", FORMAT(AVG(REPLACE(SUBSTRING_INDEX(adminStaffSalary, '$', -1), ",", "")), 2)) AS "Average Salary"
+FROM Teams
+JOIN AdminStaff ON Teams.idTeams = AdminStaff.Teams_idTeams
+GROUP BY teamName, matchesPlayed
+ORDER BY COUNT(DISTINCT idAdminStaff) DESC;
 
 <img width="473" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/872f226d-5896-4afa-aae9-e6784a971f47">
 
@@ -107,6 +131,11 @@ DSC boasts three full-sized soccer fields, a training ground with fitness facili
 
 
 ### 10.Older Players: Lists team names, player names, and ages for players older than their team's average age to identify those nearing retirement for planning replacements and contract management
+
+SELECT Teams.teamName, playerName, playerAge
+FROM Teams 
+JOIN Players ON Teams.idTeams = Players.Teams_idTeams
+WHERE playerAge > (SELECT AVG(playerAge) FROM Players WHERE Teams.idTeams = Players.Teams_idTeams);
 
 <img width="298" alt="image" src="https://github.com/thai-tran-le/mist4610/assets/148096037/ff9b011e-a33f-41da-947d-99635c871526">
 
